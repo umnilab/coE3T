@@ -1,13 +1,8 @@
-# remote data client interface. Each RDClient runs in a separate thread
-# run() method  
-
-import datetime
 import json
 import time
 import threading
-
+from datetime import datetime
 from websockets.sync.client import connect
-
 from utils.util import *
 
 str_list_to_int_list = str_list_mapper_gen(int)
@@ -66,8 +61,10 @@ class METSRClient:
                 failed_attempts += 1
                 if failed_attempts >= max_connection_attempts:
                     self.state = "failed"
-                    raise RuntimeError("Could not connect to METS-R Sim")
+                    raise RuntimeError("Could not connect to METS-R SIM")
                 time.sleep(10)
+
+        print("Connection established!")
 
         # Ensure server is initialized by waiting to receive an initial packet
         # (could be ANS_ready or a heartbeat)
@@ -486,22 +483,20 @@ class METSRClient:
         assert res["CODE"] == "OK", res["CODE"]
         return res
     
-    def add_taxi_requests_between_roads(self, zoneID, orig, dest, num):
+    def add_taxi_requests_between_roads(self, orig, dest, num):
         msg = {
                 "TYPE": "CTRL_addTaxiReqBwRoads",
                 "DATA": []
                 }
         if not isinstance(orig, list):
             orig = [orig]
-        if not isinstance(zoneID, list):
-            zoneID = [zoneID] * len(orig)
         if not isinstance(dest, list):
-            dest = [dest] * len(zoneID)
+            dest = [dest] * len(orig)
         if not isinstance(num, list):
-            num = [num] * len(zoneID)
+            num = [num] * len(orig)
 
-        for zoneID, orig, dest, num in zip(zoneID, orig, dest, num):
-            msg["DATA"].append({"zoneID": zoneID, "orig": orig, "dest": dest, "num": num})
+        for orig, dest, num in zip(orig, dest, num):
+            msg["DATA"].append({"orig": orig, "dest": dest, "num": num})
         res = self.send_receive_msg(msg, ignore_heartbeats=True)
         assert res["TYPE"] == "CTRL_addTaxiReqBwRoads", res["TYPE"]
         assert res["CODE"] == "OK", res["CODE"]
@@ -551,8 +546,8 @@ class METSRClient:
     
     
     # reset the simulation with a property file
-    def reset(self, prop_file):
-        msg = {"TYPE": "CTRL_reset", "propertyFile": prop_file}
+    def reset(self):
+        msg = {"TYPE": "CTRL_reset"}
         res = self.send_receive_msg(msg, ignore_heartbeats=True, max_attempts=-1)
 
         assert res["TYPE"] == "CTRL_reset", res["TYPE"]
@@ -570,30 +565,31 @@ class METSRClient:
 
             self.start_viz()
     
-    # reset the simulation with a map name
-    def reset_map(self, map_name):
-        # find the property file for the map
-        if map_name == "CARLA":
-            # copy CARLA data in the sim folder
-            # source_path = "data/CARLA"
-            # specify the property file
-            prop_file = "Data.properties.CARLA"
-        elif map_name == "NYC":
-            # copy NYC data in the sim folder
-            # source_path = "data/NYC"
-            # specify the property file
-            prop_file = "Data.properties.NYC"
-        elif map_name == "UA":
-            # copy UA data in the sim folder
-            # source_path = "data/UA"
-            # specify the property file
-            prop_file = "Data.properties.UA"
+    # Deprecated: reset the simulation with a property file
+    # # reset the simulation with a map name
+    # def reset_map(self, map_name):
+    #     # find the property file for the map
+    #     if map_name == "CARLA":
+    #         # copy CARLA data in the sim folder
+    #         # source_path = "data/CARLA"
+    #         # specify the property file
+    #         prop_file = "Data.properties.CARLA"
+    #     elif map_name == "NYC":
+    #         # copy NYC data in the sim folder
+    #         # source_path = "data/NYC"
+    #         # specify the property file
+    #         prop_file = "Data.properties.NYC"
+    #     elif map_name == "UA":
+    #         # copy UA data in the sim folder
+    #         # source_path = "data/UA"
+    #         # specify the property file
+    #         prop_file = "Data.properties.UA"
 
-        # docker_cp_command = f"docker cp {source_path} {self.docker_id}:/home/test/data/"
-        # subprocess.run(docker_cp_command, shell=True, check=True)
+    #     # docker_cp_command = f"docker cp {source_path} {self.docker_id}:/home/test/data/"
+    #     # subprocess.run(docker_cp_command, shell=True, check=True)
         
-        # reset the simulation with the property file
-        self.reset(prop_file)
+    #     # reset the simulation with the property file
+    #     self.reset(prop_file)
 
     # terminate the simulation
     def terminate(self):
@@ -618,9 +614,16 @@ class METSRClient:
     def start_viz(self):
         # obtain the latest directory in the sim_folder/trajectory_output
         # get the latest directory
-        list_of_files = [os.path.join(self.sim_folder + "/trajectory_output", f) for f in os.listdir(self.sim_folder + "/trajectory_output")]
-        # sort the list of files by creation time
-        latest_directory = max(list_of_files, key=os.path.getmtime)
+        # Find the latest subdirectory (not file)
+        traj_output_dir = os.path.join(self.sim_folder, "trajectory_output")
+        list_of_dirs = [os.path.join(traj_output_dir, d) for d in os.listdir(traj_output_dir) 
+                        if os.path.isdir(os.path.join(traj_output_dir, d))]
+
+        if not list_of_dirs:
+            raise FileNotFoundError("No subdirectories found in trajectory_output")
+
+        latest_directory = max(list_of_dirs, key=os.path.getmtime)
+
         # open the visualization server
         self.viz_event, self.viz_server = run_visualization_server(latest_directory)
 
@@ -632,7 +635,7 @@ class METSRClient:
     
     def _logMessage(self, direction, msg):
         self._messagesLog.append(
-            (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), direction, tuple(msg.items()))
+            (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), direction, tuple(msg.items()))
         )
         print(self._messagesLog[-1])
         

@@ -1,1 +1,1 @@
-This is the repository for coE3T simulation, which is developed based on  the HPC module of [METS-R SIM](https://github.com/umnilab/METS-R_SIM). Docker is required and it is highly recommended to go through the interactive_example.ipynb notebook. 
+This is the repository for the coE3T project's simulation, which is developed based on the HPC module of [METS-R SIM](https://github.com/umnilab/METS-R_SIM). Docker is required and it is highly recommended to go through the interactive_example.ipynb notebook. 

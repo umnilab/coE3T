@@ -1,0 +1,101 @@
+stop_name,stop_id,num_L1,num_L2,num_DC,num_Bus
+CENTRAL STATION,1001,0,1,1,1
+2nd Ave and 1st St N (Family Court),1017,0,1,1,1
+Pearson Ave and 17th Pl SW,1031,0,1,1,1
+Jefferson Ave and Fir Ave,1043,0,1,1,1
+Dartmouth Ave and 22nd St,1055,0,1,1,1
+9th Ave and 12th St,1068,0,1,1,1
+UABMEDICAL CENTER WEST,1080,0,1,1,1
+19th St and Arlington Ave (IB),1092,0,1,1,1
+Jefferson and 40th St SW (IB),1104,0,1,1,1
+Pearson and 19th St,1116,0,1,1,1
+Tuscaloosa and Center St,1130,0,1,1,1
+Pearson Ave and 15th Pl SW,1142,0,1,1,1
+Brookhaven Ave and 28th St SW,1154,0,1,1,1
+Wilson Rd and Todd Ave,1175,0,1,1,1
+Mayfield Ave and 21st St SW,1187,0,1,1,1
+Ensley Ave and 20th St (Jet Pep),1206,0,1,1,1
+36th St and Ave D,1219,0,1,1,1
+1ST AVE & 19TH ST,1265,0,1,1,1
+8th Ave and 5th St N,1277,0,1,1,1
+9th Ave and Arkadelphia Rd,1289,0,1,1,1
+Carline Ave and Ave T (3rd St Pratt),1309,0,1,1,1
+Ave F and 15th St,1321,0,1,1,1
+Ave F and 6th Pl (IB),1333,0,1,1,1
+Hibernian St and Hwy 78,1345,0,1,1,1
+9th Ct and 2nd St W,1357,0,1,1,1
+7th Ave N and 16th St,1369,0,1,1,1
+20th St S and 1st Ave S,1431,0,1,1,1
+20th St S and 4th Ave S,1472,0,1,1,1
+16th Ave S and 13th Pl,1484,0,1,1,1
+Greensprings Hwy and 24th Ave S,1496,0,1,1,1
+Bagby Drive and Goodwin Crest Dr,1511,0,1,1,1
+Greensprings Hwy and 21st Ave (IB),1527,0,1,1,1
+15th St S and 15th Ave,1539,0,1,1,1
+3rd Ave S and 41st St,1552,0,1,1,1
+Georgia Rd and 59th St,1564,0,1,1,1
+Oporto Madrid Blvd and 73rd St,1578,0,1,1,1
+Georgia Rd and Interlaken Ave,1617,0,1,1,1
+5th Ave S and 49th St,1629,0,1,1,1
+3rd Ave and 30th St,1641,0,1,1,1
+8th Ave N & 28th St N,1695,0,1,1,1
+R Arrington Jr & 46th St N,1707,0,1,1,1
+R Arrington Jr Blvd and Appalachee St,1744,0,1,1,1
+24th St and 12th Ave N,1758,0,1,1,1
+Norwood Blvd and 36th St N,1770,0,1,1,1
+41st Ave and 42nd St N,1783,0,1,1,1
+Jefferson Ave and Spring St,1795,0,1,1,1
+49th Ct and 40th Pl N,1808,0,1,1,1
+Norwood Blvd and 34th St,1821,0,1,1,1
+6th Ave N and 24th St N,1833,0,1,1,1
+30TH AVENUE & 27TH ST,1845,0,1,1,1
+34th St and 31st Ave N,1858,0,1,1,1
+43rd Ave and 36th St N,1870,0,1,1,1
+34th St and 27th Ave N,1882,0,1,1,1
+Carraway Blvd and 16th Ave N (IB),1895,0,1,1,1
+Huffman Rd and Springville Rd,1930,0,1,1,1
+23rd Ave NW and 3rd St NW,1942,0,1,1,1
+25th Ave NW and 1st Pl NW,1954,0,1,1,1
+Centerpoint Pkwy and Huffman Rd,1966,0,1,1,1
+1st Ave N and 60th St N,2019,0,1,1,1
+2nd Ave S and 79th St,2031,0,1,1,1
+Parkway East and Planet Fitness,2048,0,1,1,1
+2nd Ave S and 70th St,2065,0,1,1,1
+Hwy 31 and Vesthaven Rd,2089,0,1,1,1
+Lorna Rd and Lornaridge Lane (Jacks),2101,0,1,1,1
+20th St S and 3rd Ave S,2113,0,1,1,1
+Graymont Ave and 3rd St W,2128,0,1,1,1
+Graymont Ave and 1637 address,2174,0,1,1,1
+Graymont Ave and 2nd St N,2188,0,1,1,1
+Lakeshore Pkwy and West Oxmoor Rd,2215,0,1,1,1
+INTERNAL REVENUE SERVICE,2228,0,1,1,1
+16th St N and 16th Ct,2256,0,1,1,1
+38th Ave W and 1st Pl W,2269,0,1,1,1
+30th Ave N and 25th St N,2281,0,1,1,1
+27th St N and 32nd Ave N,2300,0,1,1,1
+38th Ave W and 4th St W,2312,0,1,1,1
+16th St N and 16th Ct N,2324,0,1,1,1
+Ave K & 40th St,2350,0,1,1,1
+55th St and Ave D,2395,0,1,1,1
+20th St S and 13th Ave S,2429,0,1,1,1
+BROOKWOOD HOSPITAL,2443,0,1,1,1
+3rd Ave W and 11th St W,2500,0,1,1,1
+Bess Rd and Ave Q,2513,0,1,1,1
+9th Ave and Harmony Dr,2536,0,1,1,1
+9th St Nearside Hall Ave,2548,0,1,1,1
+Center St Nearside Chestnut Ave,2560,0,1,1,1
+17th St & 1st Ave Bessemer,2572,0,1,1,1
+9th St and Brewer Ave,2584,0,1,1,1
+Bess Rd and Ave S,2606,0,1,1,1
+3rd Ave W and 3rd St W,2618,0,1,1,1
+ARTHUR SHORES & HUGH DENMAN,2641,0,1,1,1
+Electra Dr and Tempest Dr,2653,0,1,1,1
+Mayfield Ave and 14th St SW,2666,0,1,1,1
+20th St N and 6th Ave N,2796,0,1,1,1
+24th St N and 2nd Ave N,2821,0,1,1,1
+COLONNADE,2905,0,1,1,1
+Hwy 280 and Grandview Parkway,2918,0,1,1,1
+Kimberly Ave & 67th St S (IB),3156,0,1,1,1
+Ave C & 52nd St,3299,0,1,1,1
+Myron Massey Blvd & 61st St,3355,0,1,1,1
+Railroad Park,3611,0,1,1,1
