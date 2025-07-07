@@ -250,6 +250,84 @@ class METSRClient:
         assert res["TYPE"] == "ANS_coSimVehicle", res["TYPE"]
         return res
     
+    # query route between coordinates
+    def query_route(self, orig_x, orig_y, dest_x, dest_y, transform_coords = False):
+        msg = {"TYPE": "QUERY_routesBwCoords", "DATA": []}
+        if not isinstance(orig_x, list):
+            orig_x = [orig_x]
+            orig_y = [orig_y]
+            dest_x = [dest_x]
+            dest_y = [dest_y]
+
+        if not isinstance(transform_coords, list):
+            transform_coords = [transform_coords] * len(orig_x)
+        
+        assert len(orig_x) == len(orig_y) == len(dest_x) == len(dest_y), "Length of orig_x, orig_y, dest_x, and dest_y must be the same"
+
+        for orig_x, orig_y, dest_x, dest_y, transform_coord in zip(orig_x, orig_y, dest_x, dest_y, transform_coords):
+            msg["DATA"].append({"origX": orig_x, "origY": orig_y, "destX": dest_x, "destY": dest_y, "transformCoord": transform_coord})
+
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+
+        assert res["TYPE"] == "ANS_routesBwCoords", res["TYPE"]
+        return res
+    
+    # query route between roads
+    def query_route_between_roads(self, orig_road, dest_road):
+        msg = {"TYPE": "QUERY_routesBwRoads", "DATA": []}
+        if not isinstance(orig_road, list):
+            orig_road = [orig_road]
+        
+        if not isinstance(dest_road, list):
+            dest_road = [dest_road] * len(orig_road)
+        assert len(orig_road) == len(dest_road), "Length of orig_road and dest_road must be the same"
+
+        for orig_road, dest_road in zip(orig_road, dest_road):
+            msg["DATA"].append({"orig": orig_road, "dest": dest_road})
+        
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+
+        assert res["TYPE"] == "ANS_routesBwRoads", res["TYPE"]
+        return res
+
+    # query road weights in the routing map
+    def query_road_weights(self, roadID = None):
+        msg = {"TYPE": "QUERY_getEdgeWeight"}
+        if roadID is not None:
+            msg["DATA"] = []
+            if not isinstance(roadID, list):
+                roadID = [roadID]
+            for i in roadID:
+                msg["DATA"].append(i)
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "ANS_getEdgeWeight", res["TYPE"]
+        return res
+    
+    # query bus route
+    def query_bus_route(self, routeID = None):
+        msg = {"TYPE": "QUERY_getBusRoute"}
+        if routeID is not None:
+            msg["DATA"] = []
+            if not isinstance(routeID, list):
+                routeID = [routeID]
+            for i in routeID:
+                msg["DATA"].append(i)
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "ANS_getBusRoute", res["TYPE"]
+        return res
+    
+    # find bus with route
+    def query_route_bus(self, routeID = None):
+        msg = {"TYPE": "QUERY_getBusWithRoute"}
+        if routeID is not None:
+            msg["DATA"] = []
+            if not isinstance(routeID, list):
+                routeID = [routeID]
+            for i in routeID:
+                msg["DATA"].append(i)
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "ANS_getBusWithRoute", res["TYPE"]
+        return res
 
     # CONTROL: change the state of the simulator
     # generate a vehicle trip between origin and destination zones
@@ -547,8 +625,94 @@ class METSRClient:
         assert res["CODE"] == "OK", res["CODE"]
         return res
     
-
     # assign bus
+    def add_bus_route(self, routeName, zone, road, paths = None):
+        if paths is None:
+            msg = {
+                    "TYPE": "CTRL_addBusRoute",
+                    "DATA": []
+                    }
+        else:
+            msg = {
+                    "TYPE": "CTRL_addBusRouteWithPath",
+                    "DATA": []
+                    }
+        if not isinstance(routeName, list):
+            routeName = [routeName]
+            zone = [zone]
+            road = [road]
+            if path != None:
+                paths = [paths]
+        if paths is None:
+            for routeName, zone, road, paths in zip(routeName, zone, road, paths):
+                msg["DATA"].append({"routeName": routeName, "zones": zone, "roads": road})
+        else:
+            for routeName, zone, road, paths in zip(routeName, zone, road, paths):
+                msg["DATA"].append({"routeName": routeName, "zones": zone, "roads": road, "paths": paths})
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+
+        if paths is None:
+            assert res["TYPE"] == "CTRL_addBusRoute", res["TYPE"]
+        else:
+            assert res["TYPE"] == "CTRL_addBusRouteWithPath", res["TYPE"]
+        assert res["CODE"] == "OK", res["CODE"]
+        return res
+
+    def add_bus_run(self, routeName, departTime):
+        msg = {
+                "TYPE": "CTRL_addBusRun",
+                "DATA": []
+                }
+        if not isinstance(routeName, list):
+            routeName = [routeName]
+            departTime = [departTime]
+
+        for routeName, departTime in zip(routeName, departTime):
+            msg["DATA"].append({"routeName": routeName, "departTime": departTime})
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "CTRL_addBusRun", res["TYPE"]
+        assert res["CODE"] == "OK", res["CODE"]
+        return res
+    
+    def insert_bus_stop(self, busID, routeName, zoneID, roadName, stopIndex):
+        msg = {
+                "TYPE": "CTRL_insertStopToRoute",
+                "DATA": []
+                }
+        if not isinstance(busID, list):
+            busID = [busID]
+            routeName = [routeName] * len(busID)
+            zoneID = [zoneID] * len(busID)
+            roadName = [roadName] * len(busID)
+            stopIndex = [stopIndex] * len(busID)
+
+        for busID, routeName, zoneID, roadName, stopIndex in zip(busID, routeName, zoneID, roadName, stopIndex):
+            msg["DATA"].append({"busID": busID, "routeName": routeName, "zoneID": zoneID, "roadName": roadName, "stopIndex": stopIndex})
+
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "CTRL_insertStopToRoute", res["TYPE"]
+        assert res["CODE"] == "OK", res["CODE"]
+        return res
+    
+    def remove_bus_stop(self, busID, routeName, stopIndex):
+        msg = {
+                "TYPE": "CTRL_removeStopFromRoute",
+                "DATA": []
+                }
+        if not isinstance(busID, list):
+            busID = [busID]
+            routeName = [routeName] * len(busID)
+            stopIndex = [stopIndex] * len(busID)
+
+        for busID, routeName, stopIndex in zip(busID, routeName, stopIndex):
+            msg["DATA"].append({"busID": busID, "routeName": routeName, "stopIndex": stopIndex})
+
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "CTRL_removeStopFromRoute", res["TYPE"]
+        assert res["CODE"] == "OK", res["CODE"]
+        return res
+
+
     def assign_request_to_bus(self, vehID, orig, dest, num):
         msg = {
                 "TYPE": "CTRL_assignRequestToBus",
@@ -570,7 +734,7 @@ class METSRClient:
         assert res["CODE"] == "OK", res["CODE"]
         return res
     
-    def add_bus_requests(self, zoneID, dest, num):
+    def add_bus_requests(self, zoneID, dest, routeName, num):
         msg = {
                 "TYPE": "CTRL_addBusRequests",
                 "DATA": []
@@ -581,14 +745,50 @@ class METSRClient:
             dest = [dest] * len(zoneID)
         if not isinstance(num, list):
             num = [num] * len(zoneID)
+        if not isinstance(routeName, list):
+            routeName = [routeName] * len(zoneID)
 
-        for zoneID, dest, num in zip(zoneID, dest, num):
-            msg["DATA"].append({"zoneID": zoneID, "dest": dest, "num": num})
+        for zoneID, dest, num, routeName in zip(zoneID, dest, num, routeName):
+            msg["DATA"].append({"zoneID": zoneID, "dest": dest, "num": num, "routeName": routeName})
         res = self.send_receive_msg(msg, ignore_heartbeats=True)
         assert res["TYPE"] == "CTRL_addBusRequests", res["TYPE"]
         assert res["CODE"] == "OK", res["CODE"]
         return res
     
+    # update vehicle route 
+    def update_vehicle_route(self, vehID, route, private_veh = False):
+        msg = {
+                "TYPE": "CTRL_updateVehicleRoute",
+                "DATA": []
+                }
+        if not isinstance(vehID, list):
+            vehID = [vehID]
+            route = [route]
+        if not isinstance(private_veh, list):
+            private_veh = [private_veh] * len(vehID)
+
+        for vehID, route, private_veh in zip(vehID, route, private_veh):
+            msg["DATA"].append({"vehID": vehID, "route": route, "vehType": private_veh})
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "CTRL_updateVehicleRoute", res["TYPE"]
+        assert res["CODE"] == "OK", res["CODE"]
+        return res
+
+    # update road weights in the routing map
+    def update_road_weights(self, roadID, weight):
+        msg = {"TYPE": "CTRL_updateEdgeWeight", "DATA": []}
+        if not isinstance(roadID, list):
+            roadID = [roadID]
+            weight = [weight]
+        if not isinstance(weight, list):
+            weight = [weight] * len(roadID)
+        for roadID, weight in zip(roadID, weight):
+            msg["DATA"].append({"roadID": roadID, "weight": weight})
+        res = self.send_receive_msg(msg, ignore_heartbeats=True)
+        assert res["TYPE"] == "CTRL_updateEdgeWeight", res["TYPE"]
+        assert res["CODE"] == "OK", res["CODE"]
+        return res
+     
     
     # reset the simulation with a property file
     def reset(self):
@@ -609,7 +809,7 @@ class METSRClient:
             time.sleep(1) # wait for five secs if start viz
 
             self.start_viz()
-    
+
     # Deprecated: reset the simulation with a property file
     # # reset the simulation with a map name
     # def reset_map(self, map_name):

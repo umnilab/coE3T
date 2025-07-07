@@ -22,7 +22,7 @@
       "rh_demand_factor":1.0,
       "bus_schedule":null,
       "num_etaxi":1000,
-      "num_ebus":0,
+      "num_ebus":100,
       "private_ev_demand_file":null,
       "private_gv_demand_file":null,
       "private_ev_charging_preference":null,
