@@ -14,7 +14,7 @@
       "initial_x": 0,
       "initial_y": 0,
       "network_file":"data/Birmingham/facility/road/birmingham.net.xml",
-      "zone_file":"data/Birmingham/facility/zone/birmingham_centroid",
+      "zone_file":"data/Birmingham/facility/zone/bus_zones",
       "charging_station_file":"data/Birmingham/facility/charging_station/birmingham_cs",
       "rh_demand_file":null,
       "rh_wait_file":null,
