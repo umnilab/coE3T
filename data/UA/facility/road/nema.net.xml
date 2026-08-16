@@ -68392,6 +68392,16 @@
         <param key="name" value="McFarland Boulevard East"/>
         <param key="oneway" value="yes"/>
     </edge>
+    <!-- Close this one-way fringe so METS-R dead-end propagation has a valid return path. -->
+    <edge id="coe3t_return_218678177_16" from="1039779532" to="8382742295" name="McFarland Boulevard East return" priority="13" type="highway.trunk" spreadType="center" shape="18974.53,7365.40 18941.28,7419.65 18881.45,7515.71 18855.34,7558.41">
+        <lane id="coe3t_return_218678177_16_0" index="0" disallow="pedestrian bicycle tram rail_urban rail rail_electric rail_fast ship" speed="29.06" length="226.85" shape="18973.17,7364.56 18939.92,7418.81 18880.09,7514.87 18856.45,7553.53"/>
+        <lane id="coe3t_return_218678177_16_1" index="1" disallow="pedestrian bicycle tram rail_urban rail rail_electric rail_fast ship" speed="29.06" length="226.85" shape="18975.89,7366.24 18942.64,7420.49 18882.81,7516.55 18859.18,7555.20"/>
+        <param key="highway" value="trunk"/>
+        <param key="lanes" value="2"/>
+        <param key="maxspeed" value="65 mph"/>
+        <param key="name" value="McFarland Boulevard East return"/>
+        <param key="oneway" value="yes"/>
+    </edge>
     <edge id="218678177#2" from="8382742284" to="8382742286" name="McFarland Boulevard East" priority="13" type="highway.trunk" spreadType="center" shape="16512.19,9459.36 16643.96,9388.43 16714.59,9350.00">
         <lane id="218678177#2_0" index="0" disallow="pedestrian bicycle tram rail_urban rail rail_electric rail_fast ship" speed="29.06" length="230.06" shape="16515.47,9455.78 16643.20,9387.02 16709.72,9350.83">
             <param key="origId" value="218678177"/>
@@ -87631,6 +87641,13 @@
         </lane>
         <param key="highway" value="tertiary"/>
         <param key="name" value="Woodland Forrest Drive"/>
+        <param key="oneway" value="yes"/>
+    </edge>
+    <!-- Close this one-way fringe so METS-R dead-end propagation has a valid return path. -->
+    <edge id="coe3t_return_8866477_7" from="64310807" to="64310759" name="Woodland Forrest Drive return" priority="10" type="highway.tertiary" spreadType="center" shape="19603.95,10676.34 19661.90,10703.46 19704.16,10727.44 19714.17,10734.49">
+        <lane id="coe3t_return_8866477_7_0" index="0" disallow="tram rail_urban rail rail_electric rail_fast ship" speed="13.41" length="124.82" shape="19603.95,10676.34 19661.90,10703.46 19704.16,10727.44 19710.38,10731.82"/>
+        <param key="highway" value="tertiary"/>
+        <param key="name" value="Woodland Forrest Drive return"/>
         <param key="oneway" value="yes"/>
     </edge>
     <edge id="8866482" from="64461243" to="cluster_64244345_64461239" name="Woodland Forrest Drive" priority="10" type="highway.tertiary" spreadType="center" shape="18960.70,13220.74 18956.33,13243.96 18942.68,13278.06 18931.82,13290.50">
@@ -161565,6 +161582,14 @@
 
     <roundabout nodes="10002794456 10002794459 10002794462 10002794466" edges="1092185631#1 1092185631#2 1092185631#3 1092185631#4"/>
     <roundabout nodes="10259323757 10259323758 10259323759 1162578107" edges="1121682165#1 1121682165#2 1121682165#3 1121682165#4"/>
+    <!-- Explicit return connections for the two repaired one-way fringe roads. -->
+    <connection from="218678177#16" to="coe3t_return_218678177_16" fromLane="0" toLane="0" dir="t" state="M"/>
+    <connection from="218678177#16" to="coe3t_return_218678177_16" fromLane="1" toLane="1" dir="t" state="M"/>
+    <connection from="coe3t_return_218678177_16" to="218678177#16" fromLane="0" toLane="0" dir="t" state="M"/>
+    <connection from="coe3t_return_218678177_16" to="218678177#16" fromLane="1" toLane="1" dir="t" state="M"/>
+    <connection from="8866477#7" to="coe3t_return_8866477_7" fromLane="0" toLane="0" dir="t" state="M"/>
+    <connection from="coe3t_return_8866477_7" to="8866477#7" fromLane="0" toLane="0" dir="t" state="M"/>
+
     <roundabout nodes="1039702230 10696057658 10696057659" edges="1149786758#0 1149786758#1 1149786758#2"/>
     <roundabout nodes="10829694039 10829694048 10829694053" edges="1164446525#0 1164446525#1 1164446525#2"/>
     <roundabout nodes="10829704400 10829704401 10829762605" edges="1164446874#0 1164446874#1 1164446874#2"/>

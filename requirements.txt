@@ -1,13 +1,8 @@
-# python == 3.8.19
-networkx
-shapely
-psutil
-seaborn
-geopandas
+# Python >= 3.9 is required by the vanilla client's WebSocket options.
+-r METS-R_HPC/requirements.txt
+
+websockets>=14
 gurobipy
-# websocket-client
 kafka-python
 adtk
 scikit-learn
-ujson
-websockets
